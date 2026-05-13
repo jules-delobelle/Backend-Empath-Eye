@@ -13,7 +13,7 @@ class Profil(models.Model):
 class Session(models.Model):
     id_session = models.AutoField(primary_key=True)
     id_profil = models.ForeignKey(Profil, on_delete=models.CASCADE, db_column='id_profil')
-    date = models.DateFields()
+    date = models.DateField()
 
     class Meta:
         db_table = "Sessions"
