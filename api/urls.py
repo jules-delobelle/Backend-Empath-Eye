@@ -1,9 +1,10 @@
 from rest_framework.routers import DefaultRouter
-from .views import ProfilViewSet, SessionViewSet, DetectionViewSet
+from .views import ProfilViewSet, SessionViewSet, DetectionViewSet, EnfantViewSet
 
 router = DefaultRouter()
 
 router.register(r"profil", ProfilViewSet)
+router.register(r"enfant", EnfantViewSet)
 router.register(r"session", SessionViewSet)
 router.register(r"detection", DetectionViewSet)
 
