@@ -1,16 +1,10 @@
 from django.db import models
+from django.contrib.auth.models import User
 
-class Profil(models.Model):
-    id_profil = models.CharField(max_length=30, primary_key=True)
-    motdepasse = models.CharField(max_length=255)
-    created_at = models.DateTimeField(auto_now_add = True)
-
-    class Meta:
-        db_table= "Profils"
 
 class Enfant(models.Model):
     id_enfant = models.AutoField(primary_key=True)
-    id_profil = models.ForeignKey(Profil, on_delete=models.CASCADE, db_column="id_profil")
+    id_user = models.ForeignKey(User, on_delete=models.CASCADE, db_column="id_user")
     naissance = models.DateField(null=True, blank=True)
     prenom = models.CharField(max_length = 50)
 
