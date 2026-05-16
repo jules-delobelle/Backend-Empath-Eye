@@ -3,8 +3,8 @@ from .views import SessionViewSet, DetectionViewSet, EnfantViewSet
 
 router = DefaultRouter()
 
-router.register(r"enfant", EnfantViewSet)
-router.register(r"session", SessionViewSet)
-router.register(r"detection", DetectionViewSet)
+router.register(r"enfant", EnfantViewSet, basename="enfant")
+router.register(r"session", SessionViewSet, basename="session")
+router.register(r"detection", DetectionViewSet, basename="detection")
 
 urlpatterns = router.urls

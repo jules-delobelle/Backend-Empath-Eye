@@ -24,14 +24,23 @@ class RegisterView (views.APIView):
     
 
 class EnfantViewSet(viewsets.ModelViewSet):
-    queryset = Enfant.objects.all()
     serializer_class = EnfantSerializer
 
+    def get_queryset(self):
+        return Enfant.objects.filter(id_user = self.request.user)
+
 class SessionViewSet(viewsets.ModelViewSet):
-    queryset = Session.objects.all()
     serializer_class = SessionSerializer
+
+    def get_queryset(self):
+        enfants = Enfant.objects.filter(id_user = self.request.user)
+        return Session.objects.filter(id_enfant = enfants)
 
 
 class DetectionViewSet(viewsets.ModelViewSet):
-    queryset = Detection.objects.all()
     serializer_class = DetectionSerializer
+
+    def get_queryset(self):
+        enfants = Enfant.objects.filter(id_user = self.request.user)
+        sessions = Session.objects.filter(id_enfant = enfants)
+        return Detection.objects.filter(id_session = sessions)
