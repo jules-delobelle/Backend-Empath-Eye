@@ -12,8 +12,14 @@ class RegisterView (views.APIView):
     permission_classes = [AllowAny]
 
     def post(self, request):    
-        username = request.data["username"]
-        password = request.data["password"]
+        username = request.data.get("username")
+        password = request.data.get("password")
+
+        if not username or not password :
+            return Response({"error": "username and password required"}, status=status.HTTP_400_BAD_REQUEST)
+        if User.objects.filter(username=username).exists():
+            return Response({"error": "username already taken"}, status=status.HTTP_400_BAD_REQUEST)
+
         try:
             User.objects.create_user(username=username, password=password)
             return Response(status=status.HTTP_201_CREATED)
@@ -34,7 +40,7 @@ class SessionViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         enfants = Enfant.objects.filter(id_user = self.request.user)
-        return Session.objects.filter(id_enfant = enfants)
+        return Session.objects.filter(id_enfant__in = enfants)
 
 
 class DetectionViewSet(viewsets.ModelViewSet):
@@ -42,5 +48,5 @@ class DetectionViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         enfants = Enfant.objects.filter(id_user = self.request.user)
-        sessions = Session.objects.filter(id_enfant = enfants)
-        return Detection.objects.filter(id_session = sessions)
+        sessions = Session.objects.filter(id_enfant__in = enfants)
+        return Detection.objects.filter(id_session__in = sessions)
