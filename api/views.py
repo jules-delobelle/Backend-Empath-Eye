@@ -27,8 +27,6 @@ class RegisterView (views.APIView):
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
-    
-
 class EnfantViewSet(viewsets.ModelViewSet):
     serializer_class = EnfantSerializer
 
@@ -39,14 +37,23 @@ class SessionViewSet(viewsets.ModelViewSet):
     serializer_class = SessionSerializer
 
     def get_queryset(self):
-        enfants = Enfant.objects.filter(id_user = self.request.user)
-        return Session.objects.filter(id_enfant__in = enfants)
+        enfant = self.request.query_params.get("enfant")
+        if enfant:
+            return Session.objects.filter(id_enfant=enfant, id_enfant__id_user=self.request.user)
+        else:
+            enfants = Enfant.objects.filter(id_user=self.request.user)
+            return Session.objects.filter(id_enfant__in=enfants)
 
 
 class DetectionViewSet(viewsets.ModelViewSet):
     serializer_class = DetectionSerializer
 
     def get_queryset(self):
-        enfants = Enfant.objects.filter(id_user = self.request.user)
-        sessions = Session.objects.filter(id_enfant__in = enfants)
-        return Detection.objects.filter(id_session__in = sessions)
+        session = self.request.query_params.get("session")
+        if session:
+            return Detection.objects.filter(id_session = session, id_session__id_enfant__id_user = self.request.user)
+
+        else:
+            enfants = Enfant.objects.filter(id_user = self.request.user)
+            sessions = Session.objects.filter(id_enfant__in = enfants)
+            return Detection.objects.filter(id_session__in = sessions)
