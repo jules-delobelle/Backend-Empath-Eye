@@ -27,11 +27,10 @@ class Detection(models.Model):
         ("joie", "Joie"),
         ("tristesse", "Tristesse"),
         ("colere", "Colere"),
-        ("peur", "Peur")
+        ("surprise", "Surprise")
     ]
     emotion = models.CharField(max_length = 20, choices=EMOTIONS)
     heure = models.DateTimeField()
-    landmarks = models.JSONField()
     important = models.BooleanField(default=False)
 
     class Meta:
