@@ -6,6 +6,7 @@ class EnfantSerializer(serializers.ModelSerializer):
     class Meta:
         model = Enfant
         fields = "__all__"
+        read_only_fields = ['id_user']
 
 
 class SessionSerializer(serializers.ModelSerializer):

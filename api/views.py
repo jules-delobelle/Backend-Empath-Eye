@@ -32,6 +32,9 @@ class EnfantViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         return Enfant.objects.filter(id_user = self.request.user)
+    
+    def perform_create(self, serializer):
+        serializer.save(id_user=self.request.user)
 
 class SessionViewSet(viewsets.ModelViewSet):
     serializer_class = SessionSerializer
