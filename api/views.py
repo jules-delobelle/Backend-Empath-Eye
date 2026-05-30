@@ -53,9 +53,13 @@ class DetectionViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         session = self.request.query_params.get("session")
-        if session:
+        important = self.request.query_params.get("important")
+        if important == "true":
+            enfants = Enfant.objects.filter(id_user=self.request.user)
+            sessions = Session.objects.filter(id_enfant__in=enfants)
+            return Detection.objects.filter(id_session__in=sessions, important=True)
+        elif session:
             return Detection.objects.filter(id_session = session, id_session__id_enfant__id_user = self.request.user)
-
         else:
             enfants = Enfant.objects.filter(id_user = self.request.user)
             sessions = Session.objects.filter(id_enfant__in = enfants)
