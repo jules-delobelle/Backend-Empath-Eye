@@ -7,6 +7,7 @@ class Enfant(models.Model):
     id_user = models.ForeignKey(User, on_delete=models.CASCADE, db_column="id_user")
     naissance = models.DateField(null=True, blank=True)
     prenom = models.CharField(max_length = 50)
+    dernier_telechargement = models.DateTimeField(null=True, blank=True)
 
     class Meta:
         db_table= "Enfant"
