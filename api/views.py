@@ -64,3 +64,24 @@ class DetectionViewSet(viewsets.ModelViewSet):
             enfants = Enfant.objects.filter(id_user = self.request.user)
             sessions = Session.objects.filter(id_enfant__in = enfants)
             return Detection.objects.filter(id_session__in = sessions)
+        
+class StatsView(views.APIView):
+    def get(self, request):
+        enfant_id = self.request.query_params.get("enfant")
+        if enfant_id == None:
+            return Response({"error": "erreur lors du chargement de l'enfant"}, status=status.HTTP_400_BAD_REQUEST)
+        try:
+            enfant = Enfant.objects.get(id_enfant=enfant_id, id_user=request.user)
+        except Enfant.DoesNotExist:
+            return Response({"error": "erreur lors du chargement de l'enfant"}, status=status.HTTP_400_BAD_REQUEST)
+        
+        sessions = Session.objects.filter(id_enfant=enfant).order_by('-date')[:7]
+        detections = Detection.objects.filter(id_session__in = sessions)
+
+        stats = {"joie": 0, "tristesse": 0, "colere": 0, "suprise": 0}
+
+        for detection in detections:
+            stats[detection.emotion] += 1
+        
+        return Response(stats)
+
