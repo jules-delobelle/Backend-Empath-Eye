@@ -30,7 +30,14 @@ SECRET_KEY = os.getenv('SECRET_KEY', 'valeur-par-defaut-locale')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('DEBUG', False) == True
 
-ALLOWED_HOSTS = ['10.0.2.2', 'localhost', '127.0.0.1', '10.221.202.81', os.getenv('RAILWAY_HOST', '')]
+ALLOWED_HOSTS = [
+    'empath-eye-backend-production.up.railway.app',
+    'localhost',
+    '127.0.0.1',
+    '10.0.2.2',
+    '10.221.202.81',
+    os.getenv('RAILWAY_HOST', '')
+]
 
 
 # Application definition
