@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 from pathlib import Path
 from dotenv import load_dotenv
 import os
+import dj_database_url
 from datetime import timedelta
 
 load_dotenv()
@@ -30,13 +31,8 @@ SECRET_KEY = os.getenv('SECRET_KEY', 'valeur-par-defaut-locale')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('DEBUG', False) == True
 
-ALLOWED_HOSTS = [
-    'empath-eye-backend-production.up.railway.app',
-    'localhost',
-    '127.0.0.1',
-    '10.0.2.2',
-    '10.221.202.81',
-    os.getenv('RAILWAY_HOST', '')
+ALLOWED_HOSTS = [   
+    '*'
 ]
 
 
@@ -98,14 +94,10 @@ WSGI_APPLICATION = 'empatheyebackend.wsgi.application'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': os.getenv('DB_NAME'),
-        'USER': os.getenv('DB_USER'),
-        'PASSWORD': os.getenv('DB_PASSWORD'),
-        'HOST': os.getenv('DB_HOST'),
-        'PORT': os.getenv('DB_PORT'),
-    }
+    'default': dj_database_url.config(
+        default=os.getenv('DATABASE_URL'),
+        conn_max_age=600
+    )
 }
 
 
