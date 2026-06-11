@@ -75,10 +75,10 @@ class StatsView(views.APIView):
         except Enfant.DoesNotExist:
             return Response({"error": "erreur lors du chargement de l'enfant"}, status=status.HTTP_400_BAD_REQUEST)
         
-        sessions = Session.objects.filter(id_enfant=enfant).order_by('-date')[:7]
-        detections = Detection.objects.filter(id_session__in = sessions)
+        sessions = list(Session.objects.filter(id_enfant=enfant).order_by('-date')[:7])
+        detections = Detection.objects.filter(id_session__in=sessions)
 
-        stats = {"joie": 0, "tristesse": 0, "colere": 0, "suprise": 0}
+        stats = {"joie": 0, "tristesse": 0, "colere": 0, "surprise": 0}
 
         for detection in detections:
             stats[detection.emotion] += 1

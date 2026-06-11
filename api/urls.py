@@ -11,5 +11,3 @@ router.register(r"detection", DetectionViewSet, basename="detection")
 urlpatterns = router.urls + [
     path("stats/", StatsView.as_view(), name="stats"),
 ]
-
-urlpatterns = router.urls
