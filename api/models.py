@@ -28,7 +28,8 @@ class Detection(models.Model):
         ("joie", "Joie"),
         ("tristesse", "Tristesse"),
         ("colere", "Colere"),
-        ("surprise", "Surprise")
+        ("surprise", "Surprise"),
+        ("neutre", "Neutre")
     ]
     emotion = models.CharField(max_length = 20, choices=EMOTIONS)
     heure = models.DateTimeField()
