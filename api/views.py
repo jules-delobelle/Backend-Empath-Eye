@@ -81,7 +81,8 @@ class StatsView(views.APIView):
         stats = {"joie": 0, "tristesse": 0, "colere": 0, "surprise": 0}
 
         for detection in detections:
-            stats[detection.emotion] += 1
+            if(detection.emotion != "neutre"):
+                stats[detection.emotion] += 1
         
         return Response(stats)
 
